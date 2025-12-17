@@ -4,7 +4,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* CONFIGURACIÓN GENERAL */
+/* CONFIGURACIÓN GENERAL (Modo Horizontal) */
 body {
   background-color: #000;
   color: #fff;
@@ -13,7 +13,7 @@ body {
   padding: 0;
   height: 100vh;
   width: 100vw;
-  overflow: hidden; /* IMPORTANTE: Sin barras de desplazamiento */
+  overflow: hidden; /* Sin barras de desplazamiento */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -21,196 +21,202 @@ body {
   -webkit-tap-highlight-color: transparent;
 }
 
-/* MARCADOR PRINCIPAL (Ocupa toda la pantalla) */
+/* MARCADOR PRINCIPAL */
 .scoreboard {
   background-color: #000;
-  border: 2px solid #fff; /* Borde más fino para ahorrar espacio */
+  border: 2px solid #fff;
   border-radius: 10px;
-  padding: 5px; /* Padding mínimo */
+  padding: 5px;
   display: flex;
   flex-direction: column;
   gap: 5px;
-  width: 98vw;  /* Casi todo el ancho */
-  height: 95vh; /* Casi toda la altura */
-  max-width: none; /* Quitamos límites para aprovechar el móvil */
+  width: 99vw;
+  height: 98vh;
 }
 
-.interactive {
-  cursor: pointer;
-  transition: transform 0.05s;
-}
-.interactive:active {
-  transform: scale(0.95);
-}
+.interactive { cursor: pointer; transition: transform 0.05s; }
+.interactive:active { transform: scale(0.95); }
 
-/* --- SECCIÓN RELOJ (Arriba) --- */
+/* --- SECCIÓN RELOJ (Protagonista) --- */
 .clock-section {
   border: 2px solid #fff;
   border-radius: 10px;
-  flex: 0 0 25%; /* Ocupa el 25% de la altura disponible */
+  flex: 0 0 28%; /* Altura destacada */
   display: flex;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
   background-color: #000;
   position: relative;
+  overflow: hidden;
 }
 
+/* Botón Engranaje */
 .clock-edit-toggle {
   position: absolute;
-  top: 2px;
-  right: 2px;
-  background: transparent;
-  border: none;
-  font-size: 1.2rem;
-  color: #444;
-  z-index: 20;
-  padding: 10px;
+  top: 5px; right: 5px;
+  background: transparent; border: none; font-size: 1.5rem; color: #444; z-index: 50; padding: 10px;
 }
+.clock-edit-toggle:hover { color: #fff; }
 
-/* El reloj escala según la ALTURA de la pantalla (vh) */
+/* Dígitos del Reloj */
 .clock-digits {
-  font-size: 20vh; /* 20% de la altura de la pantalla */
+  font-size: 22vh; /* Gigante */
   color: #f00;
-  text-shadow: 0 0 10px #f00;
+  text-shadow: 0 0 20px #f00;
   line-height: 1;
-  margin-top: -1vh; /* Pequeño ajuste visual */
+  margin-top: -1vh;
+  z-index: 1;
 }
 
-/* Panel de Ajuste Flotante */
-.clock-adjust-panel {
-  position: absolute;
-  top: 50%; left: 50%; transform: translate(-50%, -50%);
-  display: flex; gap: 10px; background: rgba(0,0,0,0.9);
-  padding: 10px; border: 1px solid #fff; z-index: 30;
+/* Paneles laterales (Botones de ajuste) */
+.side-controls {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  display: flex; flex-direction: column; gap: 15px; z-index: 10;
 }
+.side-left { left: 20px; }
+.side-right { right: 20px; }
+
 .adjust-btn {
-  background: #333; color: #fff; border: 1px solid #555;
-  font-family: 'Orbitron', sans-serif; font-size: 1rem;
-  padding: 5px 10px; border-radius: 4px;
+  background: #222; color: #fff; border: 1px solid #444;
+  font-family: 'Orbitron', sans-serif; font-size: 2.5vh;
+  padding: 10px 5px; border-radius: 5px; cursor: pointer;
+  width: 80px; text-align: center; opacity: 0.9;
 }
+.adjust-btn:active { background: #444; border-color: #fff; }
 
-/* --- SECCIÓN PRINCIPAL (Abajo) --- */
+
+/* --- SECCIÓN PRINCIPAL --- */
 .main-section {
   display: grid;
-  grid-template-columns: 1fr 0.3fr 1fr; /* Local - Centro Estrecho - Visita */
+  grid-template-columns: 1fr 0.25fr 1fr;
   gap: 10px;
-  flex: 1; /* Ocupa el resto de la altura */
+  flex: 1;
   height: 100%;
   overflow: hidden;
 }
 
 /* EQUIPOS */
 .team-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-evenly; /* Distribuye espacio equitativamente */
-  border: 1px solid #222;
-  border-radius: 8px;
-  height: 100%;
+  display: flex; flex-direction: column; align-items: center; justify-content: space-evenly;
+  border: 1px solid #222; border-radius: 8px; height: 100%;
 }
 
-/* FALTAS */
-.fouls-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+/* FALTAS Y BONUS */
+.fouls-container { 
+  display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%;
 }
-.fouls-row { display: flex; align-items: center; gap: 5px; }
-
-.fouls-label { font-size: 3vh; color: #888; } /* Escala con altura */
+.fouls-row { 
+  display: flex; align-items: center; justify-content: center; 
+  gap: 15px; width: 100%;
+}
+.fouls-label { font-size: 3vh; color: #888; margin-bottom: 5px;}
 
 .fouls-digit {
-  font-size: 8vh; /* Escala con altura */
-  padding: 0 10px;
-  border: 2px solid #fff;
-  background-color: #000;
-  line-height: 1;
-  min-width: 40px;
-  text-align: center;
+  font-size: 9vh; padding: 0 15px; border: 2px solid #fff; background-color: #000;
+  line-height: 1; min-width: 50px; text-align: center;
 }
 .fouls-home { color: #0f0; text-shadow: 0 0 10px #0f0; }
 .fouls-guest { color: #f00; text-shadow: 0 0 10px #f00; }
 
 .mini-btn-foul {
   background: #222; border: 1px solid #555; color: #888;
-  width: 5vh; height: 5vh; font-size: 3vh; /* Botones escalan con altura */
-  display: flex; justify-content: center; align-items: center; border-radius: 4px;
+  width: 6vh; height: 6vh; font-size: 4vh; display: flex; justify-content: center; align-items: center; border-radius: 5px;
 }
 
-/* BONUS */
+/* Bonus Indicator */
 .bonus-indicator {
-  font-size: 2.5vh;
-  color: #ff0; text-shadow: 0 0 5px #ff0; border: 1px solid #ff0;
-  padding: 0 5px; border-radius: 3px; visibility: hidden; margin-top: 2px;
+  font-size: 4vh;
+  color: #ff0; text-shadow: 0 0 10px #ff0; 
+  border: 2px solid #ff0; 
+  padding: 5px 10px; 
+  border-radius: 5px; 
+  visibility: hidden; 
+  line-height: 1;
 }
-.bonus-indicator.active { visibility: visible; animation: blinker 0.8s step-end infinite; }
-@keyframes blinker { 50% { opacity: 0; } }
+
+@keyframes pulse-fade {
+  0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; }
+}
+
+.bonus-indicator.active { 
+  visibility: visible; animation: pulse-fade 1.5s ease-in-out infinite;
+}
+
 
 /* PUNTOS */
 .score-wrapper { width: 100%; display: flex; flex-direction: column; align-items: center; }
 .score-container {
-  border: 2px solid #fff;
-  width: 90%;
-  text-align: center;
-  background-color: #000;
+  border: 2px solid #fff; width: 95%; text-align: center; background-color: #000;
 }
 .score-digit {
-  font-size: 28vh; /* NÚMEROS GIGANTES basados en altura */
-  color: #ff0;
-  text-shadow: 0 0 15px #ff0;
-  line-height: 0.9;
+  font-size: 30vh; color: #ff0; text-shadow: 0 0 20px #ff0; line-height: 0.9;
 }
 
-/* Controles de puntos invisibles o muy sutiles para no estorbar */
-.score-controls { display: flex; justify-content: center; gap: 2px; width: 100%; margin-top: 2px; }
+.score-controls { display: flex; justify-content: center; margin-top: 5px; width: 100%; }
 .mini-btn {
-  background: #111; color: #666; border: 1px solid #333;
-  font-family: 'Orbitron', sans-serif; font-size: 2vh;
-  padding: 5px 0; width: 30%; border-radius: 3px;
+  background: #111; color: #a44; border: 1px solid #522;
+  font-family: 'Orbitron', sans-serif; font-size: 3vh;
+  padding: 5px 0; width: 40%; border-radius: 3px; cursor: pointer;
 }
-.btn-minus { border-color: #311; color: #844; }
 
 /* NOMBRES */
 .team-input {
   background: transparent; color: #fff; border: none;
-  font-family: 'Orbitron', sans-serif;
-  font-size: 5vh; /* Escala con altura */
-  text-align: center; width: 100%;
+  font-family: 'Orbitron', sans-serif; font-size: 5vh; text-align: center; width: 100%;
   text-transform: uppercase; margin: 0; padding: 0;
 }
 .team-input:focus { outline: none; border-bottom: 1px solid #555; }
 
+
 /* --- CENTRO --- */
 .center-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start; /* Todo arriba para dejar espacio al logo abajo */
-  gap: 5px;
-  padding-top: 10px;
+  display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
+  gap: 5px; padding-top: 10px; position: relative;
 }
 
 .pos-section { display: flex; align-items: center; gap: 5px; }
 .pos-arrow { font-size: 6vh; color: #333; line-height: 1; }
 .pos-arrow.active { color: #0f0; text-shadow: 0 0 10px #0f0; }
-.pos-label { font-size: 3vh; }
+.pos-label { font-size: 2.5vh; }
 
 .period-section { display: flex; flex-direction: column; align-items: center; }
 .period-label { font-size: 2.5vh; margin: 0; color: #888; }
 .period-digit {
   font-size: 10vh; color: #0f0; text-shadow: 0 0 10px #0f0;
-  border: 2px solid #fff; padding: 0 10px; line-height: 1;
+  border: 2px solid #fff; padding: 0 15px; line-height: 1;
 }
 
+/* --- LOGO DE LA LIGA (Ajustado) --- */
 .league-logo {
-  max-width: 90%;
-  height: auto;
-  max-height: 15vh; /* Limita altura para que no empuje todo */
-  margin-top: auto; /* Empuja el logo al fondo */
-  margin-bottom: 10px;
-  filter: drop-shadow(0 0 5px rgba(255,255,255,0.2));
+  max-width: 95%; 
+  height: auto; 
+  max-height: 14vh;
+  
+  /* Posicionamiento ajustado */
+  margin-top: 4vh;    /* Baja el logo separándolo del Periodo */
+  margin-bottom: 5px; /* Espacio antes de los botones globales */
+  
+  /* Efecto de luces de estadio */
+  filter: drop-shadow(0 -15px 25px rgba(255, 255, 220, 1)) drop-shadow(0 5px 15px rgba(255, 255, 255, 0.6));
+  transition: all 0.3s ease;
+  z-index: 5;
+}
+.league-logo:hover {
+    transform: scale(1.02);
 }
 
-.hint-text { display: none; } /* Ocultar ayuda en móvil para limpiar pantalla */
+/* Controles Globales (Abajo) */
+.global-controls {
+  display: flex; flex-direction: column; gap: 8px; width: 100%; align-items: center;
+  margin-top: auto; margin-bottom: 10px;
+}
+.game-btn {
+  background: #111; border: 1px solid #333; color: #888;
+  font-family: 'Orbitron', sans-serif; font-size: 1.5vh;
+  padding: 5px; width: 90%; border-radius: 4px; cursor: pointer; text-align: center;
+}
+.btn-break { border-color: #050; color: #0a0; }
+.btn-reset { border-color: #500; color: #a00; font-weight: bold; }
+
+.hint-text { display: none; }
