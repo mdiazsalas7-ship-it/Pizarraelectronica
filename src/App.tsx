@@ -345,7 +345,7 @@ export default function App() {
   const adjTime = (d: number) => setTime((t: number) => Math.max(0, t + d));
 
   const handleClock = (e: React.MouseEvent) => {
-    if (e.target.closest("button,input")) return;
+    if ((e.target as HTMLElement).closest("button,input")) return;
     if (e.detail === 2) { setTime(600000); setRun(false); }
     else setRun(r => !r);
   };
