@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import React from "react";
 
 const fl = document.createElement("link");
 fl.rel = "stylesheet";
@@ -287,7 +288,7 @@ css.textContent = `
 `;
 document.head.appendChild(css);
 
-const fmt = (ms) => {
+const fmt = (ms: number): string => {
   const s = Math.floor(ms / 1000);
   const m = Math.floor(s / 60);
   const sec = s % 60;
@@ -341,21 +342,21 @@ export default function App() {
     return () => clearInterval(id);
   }, [run, time]);
 
-  const adjTime = d => setTime(t => Math.max(0, t + d));
+  const adjTime = (d: number) => setTime((t: number) => Math.max(0, t + d));
 
-  const handleClock = (e) => {
+  const handleClock = (e: React.MouseEvent) => {
     if (e.target.closest("button,input")) return;
     if (e.detail === 2) { setTime(600000); setRun(false); }
     else setRun(r => !r);
   };
 
-  const addFoul = (team, v) => {
+  const addFoul = (team: string, v: number) => {
     if (team === "H") setFH(f => Math.max(0, f + v));
     else              setFG(f => Math.max(0, f + v));
     if (v > 0) setRun(false);
   };
 
-  const nextPeriod = (e) => {
+  const nextPeriod = (e: React.MouseEvent) => {
     e.stopPropagation();
     setRun(false); setPeriod(p => p < 4 ? p + 1 : 1);
     setTime(600000); setFH(0); setFG(0);
@@ -381,7 +382,6 @@ export default function App() {
           onDoubleClick={() => { setWTime(600000); setWRun(false); }}
           title="Click = iniciar/pausar · Doble click = resetear"
         >
-          <span className={`seg warmup-bg`}>88:88</span>
           <span className={`seg warmup-digits ${wRun ? "warmup-run" : "warmup-stop"}`}>
             {fmt(wTime)}
           </span>
@@ -417,7 +417,6 @@ export default function App() {
           <div className="foul-row">
             <button className="foul-minus" onClick={() => addFoul("H", -1)}>−</button>
             <div className="foul-seg-wrap">
-              <span className="seg foul-seg-bg">8</span>
               <span className={`seg foul-seg ${fH >= 5 ? "bonus-on" : ""}`}
                     onClick={() => addFoul("H", 1)}>{fH}</span>
             </div>
@@ -436,7 +435,6 @@ export default function App() {
                 <button className="adj-btn" onClick={() => adjTime(-60000)}>−1 min</button>
               </div>
             )}
-            <span className={`seg clock-bg ${run ? "rdim" : "ydim"}`}>88:88</span>
             <span className={`seg clock-seg ${run ? "clock-run" : "clock-stop"}`}>{fmt(time)}</span>
           </div>
           <div className="period-row" onClick={nextPeriod}>
@@ -450,7 +448,6 @@ export default function App() {
           <div className="foul-row">
             <span className={`bonus-tag ${fG >= 5 ? "on" : ""}`}>BONUS</span>
             <div className="foul-seg-wrap">
-              <span className="seg foul-seg-bg">8</span>
               <span className={`seg foul-seg ${fG >= 5 ? "bonus-on" : ""}`}
                     onClick={() => addFoul("G", 1)}>{fG}</span>
             </div>
@@ -463,7 +460,6 @@ export default function App() {
       <div className="scores-row">
         <div className="team-col">
           <div className="score-seg-wrap" onClick={() => setSH(s => s + 1)}>
-            <span className="seg score-bg">8</span>
             <span className="seg score-seg">{sH}</span>
           </div>
           <button className="score-minus" onClick={() => setSH(s => Math.max(0, s - 1))}>− 1 PTO</button>
@@ -474,7 +470,6 @@ export default function App() {
 
         <div className="team-col">
           <div className="score-seg-wrap" onClick={() => setSG(s => s + 1)}>
-            <span className="seg score-bg">8</span>
             <span className="seg score-seg">{sG}</span>
           </div>
           <button className="score-minus" onClick={() => setSG(s => Math.max(0, s - 1))}>− 1 PTO</button>
